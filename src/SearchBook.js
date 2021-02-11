@@ -25,7 +25,7 @@ class SearchBook extends React.Component {
   }
 
   processChange = (data)=>{
-    console.log('i m in process Change')
+    console.log('i m in SearchBook')
     console.log(data)
   }
     render(){

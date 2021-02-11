@@ -4,18 +4,11 @@ import Book from './Book'
 
 class BookShelf extends React.Component {
     state = {
-        bookList : [],
-        details : {
-            'currentlyReading': {'title':'Currently Reading', 'list': []},
-            'wantToRead': {'title':'wantToRead', 'list': []},
-            'read': {'title':'read', 'list': []}
-        }
-        
     }
-    // processChange = (data)=>{
-    //     console.log('i m in process Change')
-    //     console.log(data)
-    // }
+    processChange = (data)=>{
+        console.log('i m in BookShelf')
+        console.log(data)
+    }
     render(){
         return (
             <div className="bookshelf">
@@ -25,9 +18,9 @@ class BookShelf extends React.Component {
                     <h2 className="bookshelf-title">{currentShelf.title}</h2>
                     <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {currentShelf.list.map(function(book){
+                        {currentShelf.list.map((book)=>{
                             return <Book bookInfo = {book} 
-                            // handleOptionSelected={this.processChange}
+                            handleOptionSelected={this.processChange}
                             />
                         })}
                     
