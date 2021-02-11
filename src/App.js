@@ -15,9 +15,13 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     screen: 'search',
-    currentlyReadingList: [{'name':'To Kill a Mockingbird<','author':'Harper Lee'},{'name':"Ender's Game",'author':'Orson Scott Card'}],
-    wantToReadList: [{'name':'1776','author':'David McCullough'},{'name':"Harry Potter and the Sorcerer's Stone",'author':'J.K.Rowling'}],
-    readList: [{'name':'The Hobbit','author':'J.R.R. Tolkien'},{'name':"Oh, the Places You'll Go!",'author':'Seuss'},{'name':'The Adventures of Tom Sawyer','author':'Mark Twain'}]
+    // currentlyReadingList: [],
+    // wantToReadList: [],
+    // readList: []
+    currentlyReadingList: [{'title':'To Kill a Mockingbird<','authors':['Harper Lee'],'imageLinks':''},{'title':"Ender's Game",'author':'Orson Scott Card','imageLinks':''}],
+    wantToReadList: [{'title':'1776','authors':['David McCullough'],'imageLinks':''},{'title':"Harry Potter and the Sorcerer's Stone",'authors':['J.K.Rowling'],'imageLinks':''}],
+    readList: [{'title':'The Hobbit','authors':['J.R.R. Tolkien'],'imageLinks':''},{'title':"Oh, the Places You'll Go!",'authors':['Seuss'],'imageLinks':''},{'name':'The Adventures of Tom Sawyer','authors':['Mark Twain'],'imageLinks':''}]
+  
   }
 
   render() {
@@ -29,9 +33,6 @@ class BooksApp extends React.Component {
               <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
               <SearchBook/>
             </div>
-            {/* <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div> */}
           </div>
         )}/>
         <Route exact path='/' render={() => (
@@ -41,9 +42,10 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title = "Currently Reading" books={this.state.currentlyReadingList}/>
+                <BookShelf/>
+                {/* <BookShelf title = "Currently Reading" books={this.state.currentlyReadingList}/>
                 <BookShelf title = "Want to Read" books={this.state.wantToReadList}/>
-                <BookShelf title = "Read" books={this.state.readList}/>
+                <BookShelf title = "Read" books={this.state.readList}/> */}
               </div>
             </div>
             <div className="open-search">

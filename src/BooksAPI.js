@@ -32,10 +32,8 @@ export const update = (book, shelf) =>
     body: JSON.stringify({ shelf })
   }).then(res => res.json())
 
-export const search = (query) =>{
-console.log('i m in api')
-console.log(query)
-  fetch(`${api}/search`, {
+export const search = async (query) =>{
+  return await fetch(`${api}/search`, {
     method: 'POST',
     headers: {
       ...headers,
@@ -43,7 +41,5 @@ console.log(query)
     },
     body: JSON.stringify({ query })
   }).then(res => {
-    console.log(res)
-    res.json()})
-    .then(data => data.books)
+    return res.json()})
 }
