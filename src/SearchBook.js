@@ -39,7 +39,7 @@ class SearchBook extends React.Component {
             {this.state.isSearching && <div>Searching ...</div>}
             <div className="search-books-results">
             <ol className="books-grid">
-              {this.state.searchResults.map(function(item,index){
+              {this.state.searchResults.map((item,index)=>{
                 return <div key={index}>
                   <Book bookInfo = {item} 
                   handleOptionSelected={this.processChange}/>

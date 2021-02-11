@@ -10,6 +10,7 @@ class BookShelf extends React.Component {
             'wantToRead': {'title':'wantToRead', 'list': []},
             'read': {'title':'read', 'list': []}
         }
+        
     }
     // processChange = (data)=>{
     //     console.log('i m in process Change')
