@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import * as BooksAPI from './BooksAPI'
 
 class Book extends React.Component {
     state = {bookCategory: 'move'}
@@ -7,7 +8,9 @@ class Book extends React.Component {
         console.log('i m in book')
         event.preventDefault();
         this.setState({bookCategory: event.target.value})
-        this.props.handleOptionSelected(event.target.value)
+        BooksAPI.update(this.props.bookInfo,event.target.value).then(
+            results => console.log(results)
+        )
     }
     render(){
         return (
@@ -18,13 +21,16 @@ class Book extends React.Component {
                         backgroundImage: `url(${this.props.bookInfo.imageLinks.smallThumbnail})`
                         }}></div>
                     <div className="book-shelf-changer">
-                        <select value = {this.state.bookCategory} onChange={this.handleChange}>
-                        <option value="move" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none" disabled>None</option>
+                    <form>
+                        <select defaultValue={this.props.bookInfo.shelf}
+                            onChange={this.handleChange}>
+                            <option value="move" disabled>Move to...</option>
+                            <option value="currentlyReading">Currently Reading</option>
+                            <option value="wantToRead">Want to Read</option>
+                            <option value="read">Read</option>
+                            <option value="none" disabled>None</option>
                         </select>
+                    </form>
                     </div>
                     </div>
                     <div className="book-title">{this.props.bookInfo.title ? this.props.bookInfo.title: '' }</div>

@@ -26,14 +26,13 @@ export const getAll = () => {
     }
    })
     .then(res => {
-      console.log(res)
-      console.log(res.json())
-      return res.json().books
-    })
+      return res.json()
+    }).then(data => data.books)
 }
 
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
+export const update = (book, shelf) =>{
+  console.log('im in update api')
+  return fetch(`${api}/books/${book.id}`, {
     method: 'PUT',
     headers: {
       ...headers,
@@ -41,6 +40,7 @@ export const update = (book, shelf) =>
     },
     body: JSON.stringify({ shelf })
   }).then(res => res.json())
+}
 
 export const search = async (query) =>{
   return await fetch(`${api}/search`, {

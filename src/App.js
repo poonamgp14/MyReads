@@ -8,14 +8,27 @@ import { Route } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
-    bookList: []
+    bookList: {}
   }
 
   componentDidMount(){
     BooksAPI.getAll()
       .then((books) => {
         console.log(books)
-        this.setState({bookList: books});
+        let formattedBooksList = {}
+        let title = ''
+        books.forEach(element => {
+          title = element.shelf.replace(/([A-Z])/g, ' $1')
+          .replace(/^./, function(str){ return str.toUpperCase(); })
+
+          if (formattedBooksList.hasOwnProperty(title)){
+            formattedBooksList[title].push(element)
+          }else{
+            formattedBooksList[title] = [element]
+          }
+        });
+        console.log(formattedBooksList)
+        this.setState({bookList: formattedBooksList});
       })
   }
 
@@ -37,7 +50,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                {/* <BookShelf/> */}
+                <BookShelf bookDetails={this.state.bookList}/>
                 {/* <BookShelf title = "Currently Reading" books={this.state.currentlyReadingList}/>
                 <BookShelf title = "Want to Read" books={this.state.wantToReadList}/>
                 <BookShelf title = "Read" books={this.state.readList}/> */}
