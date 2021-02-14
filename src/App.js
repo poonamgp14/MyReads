@@ -18,12 +18,14 @@ class BooksApp extends React.Component {
   fetchBooks(){
     BooksAPI.getAll()
     .then((books) => {
-      console.log(books)
       let formattedBooksList = {}
       let title = ''
       books.forEach(element => {
         title = element.shelf.replace(/([A-Z])/g, ' $1')
         .replace(/^./, function(str){ return str.toUpperCase(); })
+         if (!element.hasOwnProperty('imageLinks')){
+           return
+         }
 
         if (formattedBooksList.hasOwnProperty(title)){
           formattedBooksList[title].push(element)
@@ -34,7 +36,7 @@ class BooksApp extends React.Component {
       this.setState({bookList: formattedBooksList});
     })
   }
-
+  
   componentDidMount(){
     this.fetchBooks()
   }

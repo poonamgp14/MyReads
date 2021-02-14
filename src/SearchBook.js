@@ -13,32 +13,32 @@ class SearchBook extends React.Component {
   }
 
   
-  handleSearch= async (event)=>{
-    let x = event.target.value
-    this.setState({query: x})
+  handleSearch= (event)=>{
+    console.log('i m in handleseacrh')
+    this.setState({query: event.target.value})
     let currentShelf = this.props.currentShelf
-    if (x){
+    if (event.target.value){
       this.setState({isSearching: true})
-      let results = await api.search(x)
-      if (results){
-      results.books.forEach(book => {
-        for (const key in currentShelf){
-          currentShelf[key].forEach(element => {
-            if (element.id === book.id){
-              book.shelf = element.shelf
-              // console.log(book.shelf)
+      api.search(event.target.value).then(results =>{
+        if (!(results.books.hasOwnProperty('items'))){
+          results.books.forEach(book => {
+            for (const key in currentShelf){
+              currentShelf[key].forEach(element => {
+                if (element.id === book.id){
+                  book.shelf = element.shelf
+                }
+              });
             }
-          });
+          })
+          this.setState({searchResults: results.books})
         }
+        this.setState({isSearching: false})
       })
-      // console.log(results)
-      
-      this.setState({searchResults: results.books})
-    }
-    this.setState({isSearching: false})
+    }else{
+      this.setState({isSearching: false})
+      this.setState({searchResults: []})
     }
   }
-
   processChange = ()=>{
         this.props.updateRootUrl()
   }
@@ -54,7 +54,7 @@ class SearchBook extends React.Component {
             <div className="search-books-results">
             <ol className="books-grid">
               {this.state.searchResults.map((item,index)=>{
-                return <div key={index}>
+                return <div key={item.id}>
                   <Book bookInfo = {item} 
                   handleOptionSelected={this.processChange}
                   />
