@@ -20,6 +20,7 @@ class SearchBook extends React.Component {
     if (x){
       this.setState({isSearching: true})
       let results = await api.search(x)
+      if (results){
       results.books.forEach(book => {
         for (const key in currentShelf){
           currentShelf[key].forEach(element => {
@@ -31,8 +32,10 @@ class SearchBook extends React.Component {
         }
       })
       // console.log(results)
-      this.setState({isSearching: false})
+      
       this.setState({searchResults: results.books})
+    }
+    this.setState({isSearching: false})
     }
   }
 
@@ -51,7 +54,6 @@ class SearchBook extends React.Component {
             <div className="search-books-results">
             <ol className="books-grid">
               {this.state.searchResults.map((item,index)=>{
-                console.log(item.shelf)
                 return <div key={index}>
                   <Book bookInfo = {item} 
                   handleOptionSelected={this.processChange}
