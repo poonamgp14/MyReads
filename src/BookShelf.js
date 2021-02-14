@@ -3,6 +3,9 @@ import './App.css'
 import Book from './Book'
 
 class BookShelf extends React.Component {
+    processChange = (data) => {
+        this.props.updateBooksState()
+    }
     render(){
         return (
             <div className="bookshelf">
@@ -12,7 +15,9 @@ class BookShelf extends React.Component {
                         <div className="bookshelf-books">
                             <ol className="books-grid">
                                 {value.map((item,i)=>{
-                                    return <Book key = {i} bookInfo = {item}/>
+                                    return <Book key = {i} bookInfo = {item}
+                                    handleOptionSelected={this.processChange}
+                                    />
                             })}
                             </ol>
                         </div>

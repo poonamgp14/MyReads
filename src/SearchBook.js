@@ -16,21 +16,32 @@ class SearchBook extends React.Component {
   handleSearch= async (event)=>{
     let x = event.target.value
     this.setState({query: x})
+    let currentShelf = this.props.currentShelf
     if (x){
       this.setState({isSearching: true})
       let results = await api.search(x)
+      results.books.forEach(book => {
+        for (const key in currentShelf){
+          currentShelf[key].forEach(element => {
+            if (element.id === book.id){
+              book.shelf = element.shelf
+              // console.log(book.shelf)
+            }
+          });
+        }
+      })
+      // console.log(results)
       this.setState({isSearching: false})
       this.setState({searchResults: results.books})
     }
   }
 
-  processChange = (data)=>{
-    console.log('i m in SearchBook')
-    console.log(data)
+  processChange = ()=>{
+        this.props.updateRootUrl()
   }
     render(){
         return (
-          <div>
+          <div className="app">
             <div className="search-books-input-wrapper">
                 <input type="text" placeholder="Search by title or author"
                 value={this.state.query}
@@ -40,9 +51,11 @@ class SearchBook extends React.Component {
             <div className="search-books-results">
             <ol className="books-grid">
               {this.state.searchResults.map((item,index)=>{
+                console.log(item.shelf)
                 return <div key={index}>
                   <Book bookInfo = {item} 
-                  handleOptionSelected={this.processChange}/>
+                  handleOptionSelected={this.processChange}
+                  />
                   </div>
               })}
             </ol>

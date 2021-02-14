@@ -120,6 +120,8 @@ button:active {
 
 .search-books-results {
   padding: 80px 10px 20px;
+  /* overflow-x: hidden;  */
+  overflow: auto; 
 }
 
 /* books grid */

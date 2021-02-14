@@ -7,29 +7,36 @@ import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
 class BooksApp extends React.Component {
-  state = {
-    bookList: {}
+  constructor(props){
+    super(props)
+    this.state = {
+      bookList: {}
+    }
+    this.fetchBooks = this.fetchBooks.bind(this);
+  }
+  
+  fetchBooks(){
+    BooksAPI.getAll()
+    .then((books) => {
+      console.log(books)
+      let formattedBooksList = {}
+      let title = ''
+      books.forEach(element => {
+        title = element.shelf.replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function(str){ return str.toUpperCase(); })
+
+        if (formattedBooksList.hasOwnProperty(title)){
+          formattedBooksList[title].push(element)
+        }else{
+          formattedBooksList[title] = [element]
+        }
+      });
+      this.setState({bookList: formattedBooksList});
+    })
   }
 
   componentDidMount(){
-    BooksAPI.getAll()
-      .then((books) => {
-        console.log(books)
-        let formattedBooksList = {}
-        let title = ''
-        books.forEach(element => {
-          title = element.shelf.replace(/([A-Z])/g, ' $1')
-          .replace(/^./, function(str){ return str.toUpperCase(); })
-
-          if (formattedBooksList.hasOwnProperty(title)){
-            formattedBooksList[title].push(element)
-          }else{
-            formattedBooksList[title] = [element]
-          }
-        });
-        console.log(formattedBooksList)
-        this.setState({bookList: formattedBooksList});
-      })
+    this.fetchBooks()
   }
 
   render() {
@@ -39,7 +46,8 @@ class BooksApp extends React.Component {
           <div className="search-books">
             <div className="search-books-bar">
               <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <SearchBook/>
+              <SearchBook currentShelf={this.state.bookList}
+              updateRootUrl={this.fetchBooks}/>
             </div>
           </div>
         )}/>
@@ -50,10 +58,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf bookDetails={this.state.bookList}/>
-                {/* <BookShelf title = "Currently Reading" books={this.state.currentlyReadingList}/>
-                <BookShelf title = "Want to Read" books={this.state.wantToReadList}/>
-                <BookShelf title = "Read" books={this.state.readList}/> */}
+                <BookShelf 
+                  bookDetails={this.state.bookList}
+                  updateBooksState={this.fetchBooks}/>
               </div>
             </div>
             <div className="open-search">

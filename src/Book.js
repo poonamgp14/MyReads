@@ -3,14 +3,16 @@ import './App.css'
 import * as BooksAPI from './BooksAPI'
 
 class Book extends React.Component {
-    state = {bookCategory: 'move'}
+    x = this.props.bookInfo.shelf ? this.props.bookInfo.shelf : 'move'
+    state = {bookCategory: this.x}
+    // state = {bookCategory: this.props.bookInfo.shelf ? this.props.bookInfo.shelf : 'move'}
     handleChange = (event)=>{
-        console.log('i m in book')
         event.preventDefault();
         this.setState({bookCategory: event.target.value})
-        BooksAPI.update(this.props.bookInfo,event.target.value).then(
-            results => console.log(results)
-        )
+        BooksAPI.update(this.props.bookInfo,event.target.value)
+        .then(results => {
+            this.props.handleOptionSelected()
+        })
     }
     render(){
         return (
@@ -22,7 +24,7 @@ class Book extends React.Component {
                         }}></div>
                     <div className="book-shelf-changer">
                     <form>
-                        <select defaultValue={this.props.bookInfo.shelf}
+                        <select value={this.state.bookCategory}
                             onChange={this.handleChange}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>

@@ -18,7 +18,6 @@ export const get = (bookId) =>
     .then(data => data.book)
 
 export const getAll = () => {
-  console.log('i m in getall')
   return fetch(`${api}/books`, {
     method: 'GET',
     headers: {
@@ -31,7 +30,6 @@ export const getAll = () => {
 }
 
 export const update = (book, shelf) =>{
-  console.log('im in update api')
   return fetch(`${api}/books/${book.id}`, {
     method: 'PUT',
     headers: {
