@@ -53,7 +53,13 @@ class SearchBook extends React.Component {
             {this.state.isSearching && <div>Searching ...</div>}
             <div className="search-books-results">
             <ol className="books-grid">
-              {this.state.searchResults.map((item,index)=>{
+              {this.state.searchResults.filter(item => {
+                if (!item.hasOwnProperty('imageLinks')){
+                  return false
+                } 
+                return true;
+              })
+              .map((item,index)=>{
                 return <div key={item.id}>
                   <Book bookInfo = {item} 
                   handleOptionSelected={this.processChange}

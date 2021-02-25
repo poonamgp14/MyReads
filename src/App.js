@@ -47,7 +47,7 @@ class BooksApp extends React.Component {
         <Route exact path='/search' render={() => (
           <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+              <Link to='/' className="close-search">Close</Link>
               <SearchBook currentShelf={this.state.bookList}
               updateRootUrl={this.fetchBooks}/>
             </div>
